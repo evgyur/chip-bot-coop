@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AgentRelayEvent",
+  "type": "object",
+  "required": ["event_id", "source_agent", "target_agent", "origin_platform", "text", "created_at"],
+  "properties": {
+    "event_id": {"type": "string", "minLength": 1},
+    "source_agent": {"type": "string", "minLength": 1},
+    "target_agent": {"type": "string", "minLength": 1},
+    "origin_platform": {"type": "string", "enum": ["telegram", "webhook", "api"]},
+    "origin_chat_id": {"type": "string"},
+    "origin_thread_id": {"type": "string"},
+    "human_sender_id": {"type": "string"},
+    "text": {"type": "string", "minLength": 1},
+    "created_at": {"type": "string", "format": "date-time"}
+  },
+  "additionalProperties": false
+}
