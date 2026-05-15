@@ -4,7 +4,8 @@ import re
 import sys
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
-SKILL = ROOT / 'SKILL.md'
+SKILL_ROOT = ROOT / 'skills' / 'public' / 'chip-bot-coop'
+SKILL = SKILL_ROOT / 'SKILL.md'
 
 
 def require(condition, message, failures):
@@ -31,7 +32,7 @@ def main():
         'references/coop-patterns.md',
         'references/troubleshooting.md',
     ]:
-        require((ROOT / ref).exists(), f'missing {ref}', failures)
+        require((SKILL_ROOT / ref).exists(), f'missing {ref}', failures)
         require(ref in text, f'{ref} not linked from SKILL.md', failures)
     if failures:
         print('\n'.join(failures), file=sys.stderr)

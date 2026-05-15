@@ -1,0 +1,14 @@
+telegram:
+  require_mention: true
+  allowed_chats:
+    - "<group_or_supergroup_chat_id>"
+  group_allowed_chats:
+    - "<group_or_supergroup_chat_id>"
+  group_allow_from:
+    - "<trusted_human_user_id>"
+  require_mention_chats:
+    - "<group_or_supergroup_chat_id>"
+  mention_patterns:
+    - "@<hermes_bot_username>"
+    - "hermes"
+  reply_to_mode: "all"

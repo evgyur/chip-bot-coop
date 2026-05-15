@@ -11,10 +11,22 @@ Use this skill to set up:
 - safe mention/reply policies;
 - external relay designs for true agent-to-agent handoff.
 
+## Layout
+
+The public reusable skill package lives at:
+
+```text
+skills/public/chip-bot-coop/
+```
+
+A root-level copy is kept so a direct clone into `~/.hermes/skills/chip-bot-coop` still works for Hermes.
+
 ## Install
 
+Install the public package directly:
+
 ```bash
-hermes skills install https://raw.githubusercontent.com/evgyur/chip-bot-coop/main/SKILL.md
+hermes skills install https://raw.githubusercontent.com/evgyur/chip-bot-coop/main/skills/public/chip-bot-coop/SKILL.md
 ```
 
 Or clone into your skills directory:
