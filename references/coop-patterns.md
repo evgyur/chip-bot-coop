@@ -7,9 +7,13 @@ Best default for human-facing groups.
 - Both bots are in the group.
 - Humans mention the intended bot or reply to it.
 - Both bots maintain strict chat and user allowlists.
-- Bots do not consume each other's Telegram messages.
+- Bots do not consume each other's Telegram messages through Bot API.
+- If one bot writes a visible handoff/status for the other bot, it must use an explicit address envelope:
+  - Hermes → Claw: `@chipsclawbot [ACK/DONE/BLOCKED] ...`
+  - Claw → Hermes: `@chipshermesbot [ACK/DONE/BLOCKED] ...`
+- Reply-to is acceptable, but mention is preferred because the receiving side may require mentions.
 
-Use when the goal is “both agents are available in this chat.”
+Use when the goal is “both agents are available in this chat.” The address envelope gives humans/bridges/relays a reliable routing signal; it is not direct Bot API visibility.
 
 ## Pattern B: external relay/control plane
 

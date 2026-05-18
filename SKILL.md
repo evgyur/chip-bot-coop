@@ -26,6 +26,15 @@ So “bots see each other in chats” must mean one of these explicit designs:
 
 Do not promise direct bot-to-bot Telegram visibility. It is not a configuration bug.
 
+## Required bot-cooperation address envelope
+
+When one agent writes a visible handoff/status intended for the other agent in a shared or bridged Telegram thread, it must explicitly address the target bot:
+
+- Hermes → Claw: `@chipsclawbot [ACK/DONE/BLOCKED] ...`
+- Claw → Hermes: `@chipshermesbot [ACK/DONE/BLOCKED] ...`
+
+A reply to the other bot's message is acceptable, but an explicit mention is safer and is the default because the target side may run with `require_mention` enabled. This envelope is for routing, relay/bridge selection, operator clarity, and mention-gated processing; it does **not** make Telegram Bot API deliver bot messages directly.
+
 See [Telegram reality](references/telegram-reality.md) before changing config.
 
 ## Trigger contexts
@@ -105,9 +114,10 @@ Run these tests in the target chat/topic:
 - Human → Hermes mention: Hermes receives and responds.
 - Human → OpenClaw mention: OpenClaw receives and responds.
 - Human ordinary message: ignored if mention-gated; received if full-room mode.
-- Hermes bot message → OpenClaw: OpenClaw does **not** receive it through Bot API; expected.
-- OpenClaw bot message → Hermes: Hermes does **not** receive it through Bot API; expected.
-- Relay event → target agent: if relay mode exists, the target agent receives the event outside Telegram.
+- Hermes bot message → OpenClaw via plain Bot API: OpenClaw does **not** receive it; expected.
+- OpenClaw bot message → Hermes via plain Bot API: Hermes does **not** receive it; expected.
+- Bot-authored handoff/status in shared/bridged thread: uses explicit target envelope (`@chipsclawbot` or `@chipshermesbot` + `[ACK/DONE/BLOCKED]`).
+- Relay/bridge event → target agent: if relay/bridge mode exists, the target agent receives the event outside plain Telegram Bot API and preserves the target envelope.
 
 Troubleshooting: [Troubleshooting](references/troubleshooting.md).
 
@@ -120,8 +130,9 @@ When using this skill for a real setup or review, report:
 3. Hermes gates: allowed chats, allowed human users, mention policy;
 4. OpenClaw gates: allowed chats, allowed human users, mention policy;
 5. verification matrix results;
-6. explicit statement on bot-to-bot Telegram visibility: direct visibility is impossible via Bot API;
-7. secrets/public hygiene result if writing docs or a repo.
+6. bot-cooperation address envelope used for visible bot handoffs: Hermes → `@chipsclawbot [ACK/DONE/BLOCKED] ...`, Claw → `@chipshermesbot [ACK/DONE/BLOCKED] ...`;
+7. explicit statement on bot-to-bot Telegram visibility: direct visibility is impossible via Bot API;
+8. secrets/public hygiene result if writing docs or a repo.
 
 ## Quick test checklist
 
@@ -131,6 +142,7 @@ When using this skill for a real setup or review, report:
 - [ ] OpenClaw config is generic and names key concepts rather than private deployment files.
 - [ ] At least one safe default uses mention/reply gating in shared groups.
 - [ ] Relay mode is recommended for true agent-to-agent handoff.
+- [ ] Bot-authored handoffs/statuses in shared/bridged threads use explicit target mentions: `@chipsclawbot` / `@chipshermesbot` plus `[ACK/DONE/BLOCKED]`.
 - [ ] Public repo tests scan for secrets and private infrastructure strings.
 
 ## Done criteria

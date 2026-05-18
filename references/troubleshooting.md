@@ -2,9 +2,14 @@
 
 ## “Bot A cannot see Bot B”
 
-Expected. Telegram Bot API does not deliver messages from other bots.
+Expected via plain Telegram Bot API. Telegram Bot API does not deliver messages from other bots.
 
-Fix: use an external relay or user-account bridge if true machine-to-machine handoff is required.
+Fix: use an external relay or user-account bridge if true machine-to-machine handoff is required. In shared or bridged threads, bot-authored handoffs/statuses must use the explicit target envelope so routing is unambiguous:
+
+- Hermes → Claw: `@chipsclawbot [ACK/DONE/BLOCKED] ...`
+- Claw → Hermes: `@chipshermesbot [ACK/DONE/BLOCKED] ...`
+
+Mention is preferred over relying only on reply-to because the receiving gateway/relay may require mention.
 
 ## “Bot does not see human group messages”
 

@@ -25,3 +25,10 @@ Implication:
 Telegram group chat is a user-facing surface, not a reliable agent message bus.
 
 Use Telegram for human instructions and visible replies. Use an external relay for machine-to-machine handoff.
+
+For shared or bridged threads, bot-authored handoffs/statuses must still be explicitly addressed:
+
+- Hermes → Claw: `@chipsclawbot [ACK/DONE/BLOCKED] ...`
+- Claw → Hermes: `@chipshermesbot [ACK/DONE/BLOCKED] ...`
+
+Reply-to can help, but mention is the safer default because the target gateway/relay may run with `require_mention`. This is a routing envelope for humans, bridges, and relays; it does not bypass Telegram's bot-to-bot delivery limit.
